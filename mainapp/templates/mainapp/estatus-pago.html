@@ -1,0 +1,85 @@
+{% extends 'layouts/layout.html' %}
+
+{% block titleheader %}
+<title>{{titleheader}}</title>
+{% endblock %}
+
+{% block title %}
+<h1>{{title}}</h1>
+{% endblock %} 
+
+{% block content %}
+<div>
+    <div>
+      Pagos de honorarios
+      <i>Icono pago</i>
+    </div>
+    <div>
+        {% if messages %}
+          {% for message in messages %}
+          <div role="alert">
+            {{message}}
+          </div>
+          {% endfor %}
+        {% endif %}
+        <form action="/action_page.php" id="post-form" method="POST">
+          {% csrf_token %}
+            <div>
+                <span id="inputGroup-sizing-default">Numero de folio:</span>
+                <input type="text" id='folio' name="folio" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+            </div>
+        </form>
+        <div id="registros"> 
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Folio</th>
+                <th scope="col">Medico</th>
+                <th scope="col">Cantidad</th>
+                <th scope="col">Fecha</th>
+                <th scope="col">Metodo de pago</th>
+                <th scope="col">Estatus</th>
+                <th scope="col">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>                    
+              {% for pago in pagos %}
+                <tr>
+                  <th scope="row">{{pago.id}}</th>
+                  <td>{{pago.doctor.nombre}} {{pago.doctor.ap_paterno}} {{pago.doctor.ap_materno}}</td>
+                  <td>{{pago.cantidad}}</td>
+                  <td>{{pago.fecha}}</td>
+                  <td>{{pago.Metodo_pago}}</td>
+                  <td>{{pago.estatus}}</td>
+                  <td><a href="{% url 'cambiar-estatus' id=pago.id %}"><button type="button" data-toggle="modal" data-target="#exampleModal">
+                    Cambiar estatus
+                  </button></a></td>
+                </tr>
+              {% endfor%}                    
+            </tbody>                  
+        </table>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+  //$(document).on('submit','#post-form',function(e){
+  $(document).on('change','#post-form',function(e){
+      e.preventDefault();
+
+      $.ajax({
+          type:'POST',
+          url:'/mostrar-pagos',
+          data:{
+              name:$('#folio').val(),
+              csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
+          },
+          success: function(data){
+              $('#registros').html(data);
+          },
+          error: function(){
+              $('#registros').html(" ");
+          },
+      });
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'layouts/layout.html' %}
+
+{% block titleheader %}
+<title>{{titleheader}}</title>
+{% endblock %}
+
+{% block title %}
+<h1>{{title}}</h1>
+{% endblock %} 
+
+{% block content %}
+<div>
+    <div>
+      Nuevo pago
+      <i>Icono pago</i>
+    </div>
+    <div>
+        {% for message in messages %}
+        <div>
+            <div role="alert">
+                {{message}}
+            </div>
+        </div>
+        {% endfor %}
+        <!--
+        <div class="text-center"><a href="{% url 'generar-ticket' %}"><button type="submit" class="btn btn-primary">Imprimir</button></a></div>  
+        -->
+        <div><a href="{% url 'pdf' %}"><button type="submit">Imprimir</button></a></div>    
+    </div>
+</div>
+{% endblock %}

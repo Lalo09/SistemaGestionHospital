@@ -1,0 +1,54 @@
+{% extends 'layouts/layout.html' %}
+
+{% block titleheader %}
+<title>{{titleheader}}</title>
+{% endblock %}
+
+{% block title %}
+<h1>{{title}}</h1>
+{% endblock %} 
+
+{% block content %}
+<div>
+    <div>
+        Pago de honorarios a doctor
+      <i>Icono pago</i>
+    </div>
+    <div> 
+        <form action="/actualizar-estatus" id="post-form" method="POST">
+            {% csrf_token %}
+            <div >                
+                <div>
+                    <div>
+                        {% for p in pago %}
+                        <h4 >No. de folio: {{p.id}}</h4>
+                        <input type="text" value="{{p.id}}" name='folio' id='folio' hidden>
+                        <div>
+                            <ul>
+                                <li>Doctor: {{p.doctor.nombre}} {{p.doctor.ap_paterno}} {{p.doctor.ap_materno}}</li>
+                                <li>Paciente: {{p.paciente.nombre}} {{p.paciente.ap_paterno}} {{p.paciente.ap_materno}}</li>
+                                <li>Cantidad: {{p.cantidad}}</li>
+                                <li>Fecha: {{p.fecha}}</li>
+                                <li>Estatus actual: {{p.estatus}}</li>
+                             </ul>
+                        </div> 
+                        <div>
+                            <select aria-label="Default select example" id='metodo' name='metodo'>
+                                <option disabled selected>Estatus</option>
+                                <option value= "Pagada">Pagada</option>
+                                <option value= "No pagada">No pagada</option>
+                            </select> 
+                        </div>   
+                        {% endfor %}              
+                    </div>
+                </div>
+            </div>
+                      
+            <div>
+                <button type="submit" >Guardar</button>
+                <button type="submit" >Cancelar</button>
+            </div>
+        </form>        
+    </div>
+</div>
+{% endblock %}

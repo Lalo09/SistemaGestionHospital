@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap CSS -->
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'dist/css/bootstrap.css' %}">    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    {% block titleheader %}
+    <title>{{titleheader}}</title>
+    {% endblock %}
+  </head>
+  <body>
+
+    <!--Navbar-->
+    <nav>
+      <div>
+        <a  href="{% url 'pago' %}">Clinica de especialidades</a>
+      </div>
+    </nav>
+    
+    <!--title-->
+    <div>
+      <div>
+        <div>
+          <div>
+            {% block title %}
+            <h1>{{title}}</h1>
+            {% endblock %}            
+          </div>
+        </div>
+      </div>
+    </div>    
+    
+    <!--content-->
+    <div>
+      {% block content %}
+      <div>
+        <div>
+          <i>Icon</i>
+        </div>
+        <div>
+            {% load static %} 
+             <div><img src="{% static 'img/logo.png' %}" alt="imagen-hospital"></div>
+            <form action="" id="post-form" method="POST">
+                {% csrf_token %}
+                <div>
+                    <span id="inputGroup-sizing-default">Usuario:</span>
+                    <input type="text"  aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" id="username" name="username">
+                </div>
+                <div>
+                    <span  id="inputGroup-sizing-default">Contraseña:</span>
+                    <input type="password"  aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" id="password" name="password">
+                </div>
+                <div>
+                    <button type="submit" >Ingresar</button>
+                </div>
+            </form>
+            {% for message in messages %}
+            <div>
+                <div role="alert">
+                    {{message}}
+                </div>
+            </div>
+            {% endfor %}        
+        </div>
+    </div>
+    <script type="text/javascript">
+        //$(document).on('submit','#post-form',function(e){
+        $(document).on('change','#post-form',function(e){
+            e.preventDefault();
+    
+            $.ajax({
+                type:'POST',
+                url:'/mostrar-doctor',
+                data:{
+                    name:$('#doctor').val(),
+                    csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
+                },
+                success: function(data){
+                    $('#nombre-doctor').html(data);
+                },
+                error: function(){
+                    $('#nombre-doctor').html(" ");
+                }, 
+            });
+        });
+    </script>
+      {% endblock %}
+    </div>
+    
+    <!--footer
+    <div class="container-fluid bg-secondary text-white">
+      <div class="row">
+        <div class="col-12 m-3">
+          <p><em>Todos los derechos reservados 2021.</em></p>
+        </div>
+      </div>
+    </div> -->
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  </body>
+</html>

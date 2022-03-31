@@ -1,0 +1,80 @@
+{% extends 'layouts/layout.html' %}
+
+{% block titleheader %}
+<title>{{titleheader}}</title>
+{% endblock %}
+
+{% block title %}
+<h1>{{title}}</h1>
+{% endblock %} 
+
+{% block content %}
+<div>
+    <div>
+      Reimpresion de pago
+      <i>Icono imprimir</i>
+    </div>
+    <div>
+        
+        <div>
+            <form id="post-form" method="POST">
+              {% csrf_token %}
+                <div>
+                    <span id="post-form">Numero de folio:</span>
+                    <input type="text" id='folio' name="folio" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                </div>
+            </form>  
+            <div id="registros">          
+              <table>
+                  <thead>
+                    <tr>
+                      <th scope="col">Folio</th>
+                      <th scope="col">Medico</th>
+                      <th scope="col">Paciente</th>
+                      <th scope="col">Cantidad</th>
+                      <th scope="col">Fecha</th>
+                      <th scope="col">Metodo de pago</th>
+                    </tr>
+                  </thead>
+                  <tbody>                    
+                    {% for pago in pagos %}
+                      <tr>
+                        <th scope="row">{{pago.id}}</th>
+                        <td>{{pago.doctor.nombre}} {{pago.doctor.ap_paterno}} {{pago.doctor.ap_materno}}</td>
+                        <td>{{pago.paciente.nombre}} {{pago.paciente.ap_paterno}} {{pago.paciente.ap_materno}}</td>
+                        <td>{{pago.cantidad}}</td>
+                        <td>{{pago.fecha}}</td>
+                        <td>{{pago.Metodo_pago}}</td>
+                        <!--<td><div class="text-center"><a href="{% url 'reimprimir-ticket' id=pago.id %}"><button type="submit" class="btn btn-primary">Reimprimir</button></a></div></td>-->
+                        <td><div ><a href="{% url 'pdf-reimprimir' %}?lang={{pago.id}} "><button type="submit">Reimprimir</button></a></div></td>
+                      </tr>
+                    {% endfor%}                    
+                  </tbody>                  
+              </table> 
+            </div>
+            <div></div>
+       </div>
+    </div>
+</div>
+<script type="text/javascript">
+  //$(document).on('submit','#post-form',function(e){
+  $(document).on('change','#post-form',function(e){
+      e.preventDefault();
+
+      $.ajax({
+          type:'POST',
+          url:'/mostrar-cobros',
+          data:{
+              name:$('#folio').val(),
+              csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
+          },
+          success: function(data){
+              $('#registros').html(data);
+          },
+          error: function(){
+              $('#registros').html(" ");
+          },
+      });
+  });
+</script>
+{% endblock %}

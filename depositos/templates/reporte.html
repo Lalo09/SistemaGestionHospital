@@ -1,0 +1,82 @@
+{% extends 'layouts/layout.html' %}
+
+{% block titleheader %}
+<title>{{titleheader}}</title>
+{% endblock %}
+
+{% block title %}
+<h1>{{title}}</h1>
+{% endblock %} 
+
+{% block content %}
+<div>
+    <div>
+      Imprimir reporte
+      <i>Icono imrpimir</i>
+    </div>
+    <div >
+      <form  action="{% url 'exportar-reporte-deposito' %}" id="post-form" method="POST">
+        {% csrf_token %}
+        <div >
+          <div >
+            <div >
+              Fecha: <input required type="datetime-local" id="desde" name="desde" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"> al
+            </div>
+            <div >
+              <input required type="datetime-local" id="hasta" name="hasta" pattern="[0-9]{4}/[0-9]{2}/[0-9]{2}">
+            </div>
+          </div>
+          <!--
+          <div class="row">
+            <div class="col-3">
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="post-form">Doctor:</span>
+                    <input type="text" id='doctor' name="doctor" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="mt-1"><div id=test name="test"></div></div>
+            </div>
+        </div>
+        <select required class="form-select" aria-label="Default select example" id='estatus' name='estatus'>
+          <option value = "" selected>Estatus:</option>
+          <option value="todos">Todos</option>
+          <option value="Pagada">Pagada</option>
+          <option value="No pagada">No pagada</option>
+        </select>-->
+        <div>
+          <div>
+           <div>
+            <button type="submit" >Generar</button>
+           </div>
+          </div>
+        </div>
+        </div>               
+      </form>        
+    </div>    
+</div>
+<script type="text/javascript">
+  
+  //$(document).on('submit','#post-form',function(e){
+  $(document).on('change','#post-form',function(e){
+      e.preventDefault();
+
+      $.ajax({
+          type:'POST',
+          url:'/filtrar-reporte',
+          data:{
+              desde:$('#desde').val(),
+              hasta:$('#hasta').val(),
+              csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+          },
+          success: function(data){
+              $('#test').html(data);
+          },
+          error: function(){
+              $('#test').html(" ");
+          },
+      });
+  });
+</script>
+<script>$('#date').datepicker({ dateFormat: 'dd-mm-yy' }).val();</script>
+{% endblock %}

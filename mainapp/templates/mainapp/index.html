@@ -1,0 +1,95 @@
+{% extends 'layouts/layout.html' %}
+
+{% block titleheader %}
+<title>{{titleheader}}</title>
+{% endblock %}
+
+{% block title %}
+<h1>{{title}}</h1>
+{% endblock %} 
+
+{% block content %}
+<div>
+    <div>
+      Nuevo pago
+      <i>Logo nuevo pago</i>      
+    </div>
+    <div> 
+        <form action="{% url 'guardar-paciente' %}" id="post-form" method="POST">
+            {% csrf_token %}
+            <div >                
+                <div >
+                    <div >
+                        <div >
+                            <span  id="post-form">Doctor:</span>
+                            <input type="text" id='doctor' name="doctor"  aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" required>
+                        </div>
+                    </div>
+                    <div>
+                        <div id='nombre-doctor'><p> </p></div>
+                    </div>
+                </div>
+                <div>
+                    <div>
+                      <h5>Datos de paciente</h5>
+                      <div>
+                        <div>
+                            <span id="inputGroup-sizing-default">Nombre:</span>
+                            <input type="text"  aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" id="nombre" name="nombre">
+                        </div>
+                        <div>
+                            <span id="inputGroup-sizing-default">Apellido paterno:</span>
+                            <input type="text"  aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" id="ap_paterno" name="ap_paterno">
+                        </div>
+                        <div>
+                            <span id="inputGroup-sizing-default">Apellido materno:</span>
+                            <input type="text" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" id="ap_materno" name="ap_materno">
+                        </div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+           <div>
+                <div>
+                    <span id="inputGroup-sizing-default">Cobro de honorarios:</span>
+                    <input type="text" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" id='cobro' name='cobro'>
+                </div>
+                <div >
+                    <select  aria-label="Default select example" id='metodo' name='metodo' required>
+                        <option value = "" disabled selected>Metodo de pago:</option>
+                        {% for metodo in metodos %}
+                        <option value= {{metodo.id}} >{{metodo.concepto}}</option>
+                        {% endfor%}
+                    </select>
+                </div>
+            </div>
+            
+            <div>
+                <button type="submit">Realizar cobro</button>
+                <button type="submit" >Cancelar</button>
+            </div>
+        </form>        
+    </div>
+</div>
+<script type="text/javascript">
+    //$(document).on('submit','#post-form',function(e){
+    $(document).on('change','#post-form',function(e){
+        e.preventDefault();
+
+        $.ajax({
+            type:'POST',
+            url:'/mostrar-doctor',
+            data:{
+                name:$('#doctor').val(),
+                csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
+            },
+            success: function(data){
+                $('#nombre-doctor').html(data);
+            },
+            error: function(){
+                $('#nombre-doctor').html(" ");
+            },
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends 'layouts/layout.html' %}
+
+{% block titleheader %}
+<title>{{titleheader}}</title>
+{% endblock %}
+
+{% block title %}
+<h1>{{title}}</h1>
+{% endblock %} 
+
+{% block content %}
+<div>
+    <div>
+      Imprimir reporte
+      <i>Icono imprimir</i>
+    </div>
+    <div>
+      <div><button type="button">Imprimir</button></div>
+      <table>
+            <thead>
+              <tr>
+                <th scope="col">Folio</th>
+                <th scope="col">Medico</th>
+                <th scope="col">Fecha</th>
+                <th scope="col">Metodo de pago</th>
+                <th scope="col">Cantidad</th>
+                <th scope="col">Estatus</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for pago in pagos %}
+              <tr>
+                <th scope="row">{{pago.id}}</th>
+                <td>{{pago.doctor.nombre}} {{pago.doctor.ap_paterno}} {{pago.doctor.ap_materno}}</td>
+                <td>{{pago.fecha}}</td>
+                <td>{{pago.Metodo_pago}}</td>
+                <td>{{pago.cantidad}}</td>
+                <td>{{pago.estatus}}</td>             
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+    </div>    
+</div>
+{% endblock %}

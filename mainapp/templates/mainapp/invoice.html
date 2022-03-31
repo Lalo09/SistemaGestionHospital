@@ -1,0 +1,135 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>Title</title>
+        <style type="text/css">
+            .main {
+                width: 100%;
+                margin-top: 160px;
+                /*border-collapse: collapse;
+                border: 1px solid black;*/
+                margin-top: 1px;
+                padding: 2px;
+            }
+            #concepto{
+                width: 100%;
+                border-collapse: collapse;
+                border: 1px solid black;
+                margin-top: 55px;
+                margin-left: 15px;
+            }
+            body {
+                font-weight: 200;
+                font-size: 16px;
+                font-family: Arial;
+            }
+            .header {
+                font-size: 28px;
+                font-weight: 100;
+                text-align: center;
+                color: #ae9400;
+            }
+            #info{
+                font-size: 14px;
+                text-align: center;
+            }
+            .title {
+                
+                font-weight: 100;
+               /* text-align: right;*/
+               padding: 10px 20px 0px 20px;  
+            }
+            .title span {
+                color: #007cae;
+            }
+            .details {
+                padding: 10px 20px 0px 20px;
+                text-align: left !important;
+                /*margin-left: 40%;*/
+            }
+            .hrItem {
+                border: none;
+                height: 1px;
+                /* Set the hr color */
+                color: #333; /* old IE */
+                background-color: #fff; /* Modern Browsers */
+            }
+            .firma{
+                margin-top: 170px;
+            }
+            .firma tr td{
+                padding-left: 230px;
+                padding-right: 230px;
+            }
+            .nombre{
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <div class='wrapper'>
+            {% load static %}
+            <div class='header'>
+                <img src="http://127.0.0.1:8000{% static 'img/logo.png' %}" alt="imagen-hospital">
+                <p class='title'><b>Clinica de Especialidades</b></p>
+            </div>
+            <div id="info">
+                <p>Blvd. Galerias No.239 Col. Villa Olimpica <br> Saltillo Coah. CP. 25230 <br> Tel. (844) 438-08-90</p>
+            </div>
+        </div>
+        
+        <br>
+        <br>
+        <table class = "main">
+            <div class='details'>
+                <tr>
+                    <td>
+                        <table>
+                            <tr>
+                                <td>
+                                    <div><b>No: de folio:</b> {{folio}}</div>
+                                </td>
+                                <td>
+                                    <div><b>Fecha:</b> {{fecha}}</div>
+                                </td>
+                                <td>
+                                    <div><b>Forma de pago:</b>  {{metodo_pago}}</div>
+                                </td>
+                            </tr>
+                        </table>
+                        <div><b>Paciente:</b> {{paciente_nombre}} {{paciente_ap_paterno}} {{paciente_ap_materno}}</div>
+                        <div><b>Doctor:</b> {{doctor_nombre}} {{doctor_ap_paterno}} {{doctor_ap_materno}}</div>
+                        <table id='concepto'>
+                            <tr>
+                                <td>
+                                    <div><b>Concepto</b></div>
+                                </td>
+                                <td>
+                                    <div><b>Total</b></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>Pago de honorarios</div>
+                                </td>
+                                <td>
+                                    <div>{{cantidad}}</div>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </div>
+        </table>
+        <table class="firma">
+            <tr>
+                <td>
+                    <hr >
+                </td>
+            </tr>
+        </table>
+        
+        <p class="nombre">Nombre y firma</p>
+        <br>
+    </body>
+</html>
