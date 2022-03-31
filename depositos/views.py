@@ -165,7 +165,7 @@ def reporte (request):
         'title':'Reportes de depositos',
         'titleheader':'Reportes'
     })
-
+ 
 #Exportar a cvs
 @login_required(login_url="login")
 def exportar(request):

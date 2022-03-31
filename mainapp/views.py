@@ -68,6 +68,7 @@ def generar_ticket(request):
     buf.seek(0)
 
     return FileResponse(buf, as_attachment=True, filename="reporte.pdf")
+    
 #Reimprimir ticket
 @login_required(login_url="login")
 def reimprimir_ticket(request,id):
